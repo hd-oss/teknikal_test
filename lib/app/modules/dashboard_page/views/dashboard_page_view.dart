@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../controllers/dashboard_page_controller.dart';
 
@@ -47,198 +48,182 @@ class DashboardPageView extends GetView<DashboardPageController> {
     ];
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Stack(
-            children: [
-              CustomPaint(
-                size: Size(width, width / 1.91326530612),
-                painter: CustomBackgroundPainter(),
-              ),
-              SafeArea(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Image.asset(
-                                'assets/icons/Logo Jakarta Tourist Pass.png',
-                                width: 140),
-                          ),
-                        ),
-                        _buildIcon('assets/icons/Group 34135.png'),
-                        const SizedBox(width: 8),
-                        _buildIcon(null, icon: Icons.notifications),
-                      ]),
-                    ),
-                    const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(children: [
-                        Image.asset('assets/icons/profile-user 2.png',
-                            width: 50),
-                        const SizedBox(width: 12),
-                        Text.rich(
-                          TextSpan(
-                              text: 'Good morning,\n',
-                              children: const [TextSpan(text: 'Guest')],
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.sizeOf(context).height / 54,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ]),
-                    ),
-                    const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: _buildBalanceCard(),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: feature
-                    .asMap()
-                    .entries
-                    .map((e) => _buildFeatureSection(
-                        e.value['title'] ?? '-', e.value['asset'] ?? '-'))
-                    .toList()),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            height: 95,
-            child: ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(left: 16),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    Image.asset('assets/images/Frame 34367.png'),
-                separatorBuilder: (_, __) => const SizedBox(width: 6),
-                itemCount: 2),
-          ),
-          const SizedBox(height: 16),
-          _buildTitleContent(
-            'assets/icons/landmark 1.png',
-            'Let’s Go with Jakarta Tourist Pass',
-            'a place not to be missed',
-          ),
-          const SizedBox(height: 16),
-          Container(
-            width: double.infinity,
-            height: 170,
-            padding: const EdgeInsets.only(left: 24),
-            child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(children: [
+              Stack(
                 children: [
-                  Image.asset('assets/icons/Frame 34377.png', width: 80),
-                  const SizedBox(width: 16),
-                  ...touristPass.asMap().entries.map((e) =>
-                      _buildTouristPassSection(
-                          e.value['title'] ?? '-', e.value['asset'] ?? '-'))
-                ].toList()),
-          ),
-          const SizedBox(height: 16),
-          _buildTitleContent(
-            'assets/icons/calendar 1.png',
-            'Events in Jakarta',
-            'don\'t miss the current events',
-          ),
-          const SizedBox(height: 16),
-          Container(
-            width: double.infinity,
-            height: 185,
-            padding: const EdgeInsets.only(left: 24),
-            child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  ...event
-                      .asMap()
-                      .entries
-                      .map((e) => _buildEventSection(e.value))
-                ].toList()),
-          ),
-          const SizedBox(height: 16),
-        ]),
-      ),
-      floatingActionButton: Image.asset(
-        'assets/icons/JakCard (3) 3.png',
-        width: 90,
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.transparent,
-        height: 80,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        offset: const Offset(0, -4),
-                        blurRadius: 6,
-                        spreadRadius: 2)
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset(
-                      'assets/icons/Vector.png',
-                      width: 25,
+                  CustomPaint(
+                    size: Size(width, width / 1.91326530612),
+                    painter: CustomBackgroundPainter(),
+                  ),
+                  SafeArea(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(children: [
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Image.asset(
+                                    'assets/icons/Logo Jakarta Tourist Pass.png',
+                                    width: 140),
+                              ),
+                            ),
+                            _buildIcon('assets/icons/Group 34135.png'),
+                            const SizedBox(width: 8),
+                            _buildIcon(null, icon: Icons.notifications),
+                          ]),
+                        ),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(children: [
+                            Image.asset('assets/icons/profile-user 2.png',
+                                width: 50),
+                            const SizedBox(width: 12),
+                            Text.rich(
+                              TextSpan(
+                                  text: 'Good morning,\n',
+                                  children: const [TextSpan(text: 'Guest')],
+                                  style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.sizeOf(context).height /
+                                              54,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ]),
+                        ),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: _buildBalanceCard(),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                     ),
-                    Image.asset(
-                      'assets/icons/Vector-1.png',
-                      width: 25,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 3),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.25),
-                      offset: const Offset(1, 3),
-                      blurRadius: 4,
-                      spreadRadius: 2)
+                  ),
                 ],
-                gradient: const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xffFF4747), Color(0xffFC9842)]),
               ),
-              padding: const EdgeInsets.all(8),
-              child: SvgPicture.asset('assets/images/Vector.svg'),
-            )
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: feature
+                        .asMap()
+                        .entries
+                        .map((e) => _buildFeatureSection(
+                            e.value['title'] ?? '-', e.value['asset'] ?? '-'))
+                        .toList()),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 95,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(left: 24),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) =>
+                        Image.asset('assets/images/E-Banner (1) 1.png'),
+                    separatorBuilder: (_, __) => const SizedBox(width: 6),
+                    itemCount: 2),
+              ),
+              const SizedBox(height: 16),
+              _buildTitleContent(
+                'assets/icons/landmark 1.png',
+                'Let’s Go with Jakarta Tourist Pass',
+                'a place not to be missed',
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 170,
+                child: ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(left: 24),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Image.asset('assets/icons/Frame 34377.png', width: 80),
+                      const SizedBox(width: 16),
+                      ...touristPass.asMap().entries.map((e) =>
+                          _buildTouristPassSection(
+                              e.value['title'] ?? '-', e.value['asset'] ?? '-'))
+                    ].toList()),
+              ),
+              const SizedBox(height: 16),
+              _buildTitleContent(
+                'assets/icons/calendar 1.png',
+                'Events in Jakarta',
+                'don\'t miss the current events',
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 185,
+                child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: 24),
+                    children: event
+                        .asMap()
+                        .entries
+                        .map((e) => _buildEventSection(e.value))
+                        .toList()),
+              ),
+              const SizedBox(height: 80),
+            ]),
+          ),
+          Positioned(bottom: 50,right: 16,
+              child: Image.asset('assets/icons/JakCard (3) 3.png', width: 90)),
+        ],
+      ),
+      floatingActionButton: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 3),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                offset: const Offset(1, 3),
+                blurRadius: 4,
+                spreadRadius: 2)
+          ],
+          gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffFF4747), Color(0xffFC9842)]),
+        ),
+        padding: const EdgeInsets.all(8),
+        child: SvgPicture.asset('assets/images/Vector.svg'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomSheet: Container(
+        height: 50,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                offset: const Offset(0, -4),
+                blurRadius: 6,
+                spreadRadius: 2)
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset('assets/icons/Vector.png', width: 25),
+            Image.asset('assets/icons/Vector-1.png', width: 25),
           ],
         ),
       ),
@@ -369,6 +354,7 @@ class DashboardPageView extends GetView<DashboardPageController> {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       color: Colors.white,
       surfaceTintColor: Colors.white,
+      elevation: 4,
       child: Column(
         children: [
           SizedBox(
